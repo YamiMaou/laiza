@@ -1,6 +1,6 @@
 {
-  "appId": "com.yamitec.quietbrow",
-  "productName": "QuietBrow",
+  "appId": "org.yamitec.laiza",
+  "productName": "Laiza",
   "nsis": {
     "include": "static/installer.nsh"
   },
@@ -43,7 +43,7 @@
   "fileAssociations": [
     {
       "name": "Document",
-      "description": "QuietBrow",
+      "description": "Laiza",
       "role": "Viewer",
       "ext": "html"
     }

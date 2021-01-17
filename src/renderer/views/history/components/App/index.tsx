@@ -18,6 +18,10 @@ import {
   ICON_TRASH,
 } from '~/renderer/constants';
 import { WebUIStyle } from '~/renderer/mixins/default-styles';
+import Langs from '~/langs';
+
+const langs = new Langs();
+const words = langs.getWord();
 
 const onScroll = (e: any) => {
   const scrollPos = e.target.scrollTop;

@@ -2,9 +2,12 @@ import { ipcRenderer, webFrame } from 'electron';
 
 import AutoComplete from './models/auto-complete';
 import { getTheme } from '~/utils/themes';
-import { WEBUI_BASE_URL } from '~/constants/files';
+import { ERROR_PROTOCOL, WEBUI_BASE_URL } from '~/constants/files';
 import { injectChromeWebstoreInstallButton } from './chrome-webstore';
 import Langs from '~/langs';
+
+const lang = new Langs();
+const words = lang.getWord();
 
 const tabId = ipcRenderer.sendSync('get-webcontents-id');
 
@@ -123,7 +126,7 @@ if (
 const settings = ipcRenderer.sendSync('get-settings-sync');
 if (
   window.location.href.startsWith(WEBUI_BASE_URL) ||
-  window.location.protocol === 'wexond-error:'
+  window.location.protocol === `${ERROR_PROTOCOL}:`
 ) {
   (async function () {
     const w = await webFrame.executeJavaScript('window');
@@ -167,7 +170,7 @@ if (window.location.href.startsWith(WEBUI_BASE_URL)) {
     else if (hostname.startsWith('bookmarks')) document.title = 'Bookmarks';
     else if (hostname.startsWith('extensions')) document.title = 'Extensions';
     else if (hostname.startsWith('newtab')) {
-      document.title = Langs.getWord.extension.title ?? 'New tab';
+      document.title = words.tabs.newtab ?? 'New tab';
     }
   });
 

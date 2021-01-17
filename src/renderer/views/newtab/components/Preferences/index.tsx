@@ -14,6 +14,11 @@ import { Dropdown } from '~/renderer/components/Dropdown';
 import store, { Preset } from '../../store';
 import { ICON_WINDOW, ICON_BACK } from '~/renderer/constants';
 
+import Langs from '~/langs';
+
+const langs = new Langs();
+const words = langs.getWord();
+
 const onBackClick = () => {
   store.preferencesContent = 'main';
 };
@@ -88,7 +93,9 @@ export const Preferences = observer(() => {
                 : 'translateX(-100%)',
           }}
         >
-          <Title style={{ marginLeft: 20 }}>Page layout</Title>
+          <Title style={{ marginLeft: 20 }}>
+            {words.tabs.dashboardSettings.title}
+          </Title>
 
           <ContextMenuSeparator bigger></ContextMenuSeparator>
 
@@ -99,7 +106,7 @@ export const Preferences = observer(() => {
             iconSize={28}
             icon={ICON_WINDOW}
           >
-            Focused
+            {words.tabs.dashboardSettings.focused}
           </ContextMenuItem>
           <ContextMenuItem
             bigger
@@ -108,7 +115,7 @@ export const Preferences = observer(() => {
             iconSize={28}
             icon={ICON_WINDOW}
           >
-            Inspirational
+            {words.tabs.dashboardSettings.inspirational}
           </ContextMenuItem>
           <ContextMenuItem
             bigger
@@ -117,7 +124,7 @@ export const Preferences = observer(() => {
             iconSize={28}
             icon={ICON_WINDOW}
           >
-            Informational
+            {words.tabs.dashboardSettings.informational}
           </ContextMenuItem>
           <ContextMenuItem
             bigger
@@ -126,7 +133,7 @@ export const Preferences = observer(() => {
             iconSize={28}
             icon={ICON_WINDOW}
           >
-            Custom
+            {words.tabs.dashboardSettings.custom}
           </ContextMenuItem>
         </div>
         <div

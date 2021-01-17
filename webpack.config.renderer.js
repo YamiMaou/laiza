@@ -27,14 +27,6 @@ const extPopupConfig = getConfig({
 
   entry: {},
   output: {},
-
-  devServer: {
-    contentBase: join(__dirname, 'build'),
-    port: PORT,
-    hot: true,
-    inline: true,
-    disableHostCheck: true,
-  },
 });
 
 applyEntries('app', appConfig, [
@@ -58,7 +50,7 @@ if (process.env.ENABLE_EXTENSIONS) {
   ];
   extPopupConfig.plugins.push(
     new HtmlWebpackPlugin({
-      title: 'QuietBrowser',
+      title: 'Laiza',
       template: 'static/pages/extension-popup.html',
       filename: `extension-popup.html`,
       chunks: [`vendor.app`, 'extension-popup'],

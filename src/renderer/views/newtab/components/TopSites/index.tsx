@@ -1,3 +1,8 @@
+/**
+ * @title TOP SITE LIST
+ * @desc GRADE DE SITES MAIS ACESSADOS
+ */
+
 import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 

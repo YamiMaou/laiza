@@ -7,7 +7,6 @@ import { ThemeProvider } from 'styled-components';
 import { Wrapper, Content, IconItem, Menu, Image, RightBar } from './style';
 import { TopSites } from '../TopSites';
 import { News } from '../News';
-import { WEBUI_BASE_URL, WEBUI_URL_SUFFIX } from '~/constants/files';
 import { Preferences } from '../Preferences';
 import {
   ICON_TUNE,
@@ -18,13 +17,23 @@ import {
   ICON_EXTENSIONS,
 } from '~/renderer/constants/icons';
 import { WebUIStyle } from '~/renderer/mixins/default-styles';
+import { getWebUIURL } from '~/common/webui';
+
+import Langs from '~/langs';
+import { Input } from '~/renderer/components/NavigationDrawer/style';
+import { InputContainer } from '~/renderer/views/app/components/AddressBar/style';
+
+import { AddressBarContainer } from '~/renderer/views/app/components/AddressBarContainer';
+
+const langs = new Langs();
+const words = langs.getWord();
 
 window.addEventListener('mousedown', () => {
   store.dashboardSettingsVisible = false;
 });
 
 const onIconClick = (name: string) => () => {
-  window.location.href = `${WEBUI_BASE_URL}${name}${WEBUI_URL_SUFFIX}`;
+  window.location.href = getWebUIURL(name);
 };
 
 const onTuneClick = () => {
@@ -50,12 +59,34 @@ export default hot(
 
           <Wrapper fullSize={store.fullSizeImage}>
             <Image src={store.imageVisible ? store.image : ''}></Image>
-            <Content>{store.topSitesVisible && <TopSites></TopSites>}</Content>
+            <Content>
+              <img
+                width="250px"
+                style={{ margin: 'auto' }}
+                src="https://services.yamitec.com/public/assets/images/logo.png"
+              />
+              <h3>Pesquisar na Web</h3>
+              <div
+                style={{
+                  width: '98%',
+                  height: 55,
+                  border: '1px solid #dedede',
+                  borderRadius: 10,
+                  color: '#3333',
+                  padding: '5px 15px',
+                  background: 'rgba(255,255,255,0.1)',
+                  textAlign: 'center',
+                }}
+              >
+                <Input placeholder={words.navigation.addrPlaceholder}></Input>
+              </div>
+              {store.topSitesVisible && <TopSites></TopSites>}
+            </Content>
 
             <RightBar>
               <IconItem
                 imageSet={store.imageVisible}
-                title="Dashboard settings"
+                title={words.tabs.dashboardSettings}
                 icon={ICON_TUNE}
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={onTuneClick}
@@ -65,31 +96,31 @@ export default hot(
               <Menu>
                 <IconItem
                   imageSet={store.imageVisible}
-                  title="Settings"
+                  title={words.menu.settings}
                   icon={ICON_SETTINGS}
                   onClick={onIconClick('settings')}
                 ></IconItem>
                 <IconItem
                   imageSet={store.imageVisible}
-                  title="History"
+                  title={words.menu.history}
                   icon={ICON_HISTORY}
                   onClick={onIconClick('history')}
                 ></IconItem>
                 <IconItem
                   imageSet={store.imageVisible}
-                  title="Bookmarks"
+                  title={words.menu.bookmarks}
                   icon={ICON_BOOKMARKS}
                   onClick={onIconClick('bookmarks')}
                 ></IconItem>
                 <IconItem
                   imageSet={store.imageVisible}
-                  title="Downloads"
+                  title={words.menu.downloads}
                   icon={ICON_DOWNLOAD}
                   onClick={onIconClick('downloads')}
                 ></IconItem>
                 <IconItem
                   imageSet={store.imageVisible}
-                  title="Extensions"
+                  title={words.menu.extensions}
                   icon={ICON_EXTENSIONS}
                   onClick={onIconClick('extensions')}
                 ></IconItem>

@@ -11,7 +11,7 @@ import { getMainMenu } from './menus/main';
 import { runAutoUpdaterService } from './services';
 import { DialogsService } from './services/dialogs-service';
 import { requestAuth } from './dialogs/auth';
-import Langs from '~/langs';
+import { NetworkServiceHandler } from './network/network-service-handler';
 
 export class Application {
   public static instance = new Application();
@@ -27,7 +27,6 @@ export class Application {
   public dialogs = new DialogsService();
 
   public start() {
-    console.log(Langs.getWord)
     const gotTheLock = app.requestSingleInstanceLock();
 
     if (!gotTheLock) {
@@ -86,6 +85,8 @@ export class Application {
 
   private async onReady() {
     await app.whenReady();
+
+    NetworkServiceHandler.get();
 
     checkFiles();
 

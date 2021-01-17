@@ -1,3 +1,7 @@
+/**
+ * @title NOTICIAS
+ * @desc GRADE DE NOTICIAS MAIS ACESSADOS
+ */
 import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 

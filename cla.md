@@ -1,6 +1,6 @@
 Individual Contributor License Agreement
 
-You accept and agree to the following terms and conditions for Your past, present and future Contributions submitted to Eryk Rakowski (the “General Developer”) for inclusion in the following software code project QuietBrowser (the “Code Project”). In return, the General Developer shall reference you as a contributor to the open source code version of the Code Project that is currently distributed under the GNU General Public License (GPLv3).
+You accept and agree to the following terms and conditions for Your past, present and future Contributions submitted to Eryk Rakowski (the “General Developer”) for inclusion in the following software code project Wexond (the “Code Project”). In return, the General Developer shall reference you as a contributor to the open source code version of the Code Project that is currently distributed under the GNU General Public License (GPLv3).
 
 Except for the license granted herein to the General Developer, You reserve all right, title, and interest in and to Your Contributions.
 

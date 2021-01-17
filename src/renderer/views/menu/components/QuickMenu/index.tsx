@@ -29,6 +29,11 @@ import {
   ICON_FIND,
   ICON_PRINT,
 } from '~/renderer/constants/icons';
+import { getWebUIURL } from '~/common/webui';
+import Langs from '~/langs';
+
+const lang = new Langs();
+const words = lang.getWord();
 
 const onFindClick = () => {
   /*
@@ -77,7 +82,7 @@ const addNewTab = (url: string) => {
 };
 
 const goToWebUIPage = (name: string) => () => {
-  addNewTab(`${WEBUI_BASE_URL}${name}${WEBUI_URL_SUFFIX}`);
+  addNewTab(getWebUIURL(name));
 };
 
 const goToURL = (url: string) => () => {
@@ -109,7 +114,7 @@ export const QuickMenu = observer(() => {
           )}
           <MenuItem onClick={onAlwaysClick}>
             <Icon icon={ICON_TOPMOST} />
-            <MenuItemTitle>Always on top</MenuItemTitle>
+            <MenuItemTitle>{words.menu.alwaisOnTop}</MenuItemTitle>
             <RightControl>
               <Switch dense value={store.alwaysOnTop}></Switch>
             </RightControl>
@@ -117,36 +122,36 @@ export const QuickMenu = observer(() => {
           <Line />
           <MenuItem onClick={goToWebUIPage('newtab')}>
             <Icon icon={ICON_TAB} />
-            <MenuItemTitle>New tab</MenuItemTitle>
+            <MenuItemTitle>{words.menu.newTab}</MenuItemTitle>
             <Shortcut>Ctrl+T</Shortcut>
           </MenuItem>
           <MenuItem onClick={onNewWindowClick}>
             <Icon icon={ICON_WINDOW} />
-            <MenuItemTitle>New window</MenuItemTitle>
+            <MenuItemTitle>{words.menu.newWindow}</MenuItemTitle>
             <Shortcut>Ctrl+N</Shortcut>
           </MenuItem>
           <MenuItem onClick={onIncognitoClick}>
             <Icon icon={ICON_INCOGNITO} />
-            <MenuItemTitle>New incognito window</MenuItemTitle>
+            <MenuItemTitle>{words.menu.newIncognitoWindow}</MenuItemTitle>
             <Shortcut>Ctrl+Shift+N</Shortcut>
           </MenuItem>
           <Line />
           <MenuItem onClick={goToWebUIPage('history')} arrow>
             <Icon icon={ICON_HISTORY} />
-            <MenuItemTitle>History</MenuItemTitle>
+            <MenuItemTitle>{words.menu.history}</MenuItemTitle>
           </MenuItem>
           <MenuItem onClick={goToWebUIPage('bookmarks')} arrow>
             <Icon icon={ICON_BOOKMARKS} />
-            <MenuItemTitle>Bookmarks</MenuItemTitle>
+            <MenuItemTitle>{words.menu.bookmarks}</MenuItemTitle>
           </MenuItem>
           <MenuItem disabled onClick={goToWebUIPage('downloads')}>
             <Icon icon={ICON_DOWNLOAD} />
-            <MenuItemTitle>Downloads</MenuItemTitle>
+            <MenuItemTitle>{words.menu.downloads}</MenuItemTitle>
           </MenuItem>
           <Line />
           <MenuItem onClick={goToWebUIPage('settings')}>
             <Icon icon={ICON_SETTINGS} />
-            <MenuItemTitle>Settings</MenuItemTitle>
+            <MenuItemTitle>{words.menu.settings}</MenuItemTitle>
           </MenuItem>
           {/* TODO: <MenuItem onClick={goToWebUIPage('extensions')}> */}
           <MenuItem
@@ -155,17 +160,17 @@ export const QuickMenu = observer(() => {
             )}
           >
             <Icon icon={ICON_EXTENSIONS} />
-            <MenuItemTitle>Extensions</MenuItemTitle>
+            <MenuItemTitle>{words.menu.extensions}</MenuItemTitle>
           </MenuItem>
           <Line />
           <MenuItem onClick={onFindInPageClick}>
             <Icon icon={ICON_FIND} />
-            <MenuItemTitle>Find in page</MenuItemTitle>
+            <MenuItemTitle>{words.menu.findInPage}</MenuItemTitle>
             <Shortcut>Ctrl+F</Shortcut>
           </MenuItem>
           <MenuItem onClick={onPrintClick}>
             <Icon icon={ICON_PRINT} />
-            <MenuItemTitle>Print</MenuItemTitle>
+            <MenuItemTitle>{words.menu.print}</MenuItemTitle>
             <Shortcut>Ctrl+P</Shortcut>
           </MenuItem>
         </MenuItems>

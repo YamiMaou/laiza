@@ -10,6 +10,10 @@ import { StyledAddressBar, InputContainer, Input, Text } from './style';
 import { ICON_SEARCH } from '~/renderer/constants';
 import { SiteButtons } from '../SiteButtons';
 import { DEFAULT_TITLEBAR_HEIGHT } from '~/constants/design';
+import Langs from '~/langs';
+
+const langs = new Langs();
+const words = langs.getWord();
 
 let mouseUpped = false;
 
@@ -146,7 +150,7 @@ export const AddressBar = observer(() => {
           onFocus={onFocus}
           onMouseUp={onMouseUp}
           onChange={onChange}
-          placeholder="Search or type in a URL"
+          placeholder={words.navigation.addrPlaceholder}
           visible={!store.addressbarTextVisible || store.addressbarValue === ''}
           value={store.addressbarValue}
         ></Input>

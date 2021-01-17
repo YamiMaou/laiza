@@ -50,8 +50,8 @@ const getInput = (name) => {
 
       const newEBConfig = {
         ...electronBuilder,
-        appId: 'org.wexond.wexond-nightly',
-        productName: 'QuietBrowser Nightly',
+        appId: 'com.yamitec.laiza-ngy',
+        productName: 'Laiza Ngy',
         directories: {
           output: 'dist',
           buildResources: 'static/nightly-icons',
