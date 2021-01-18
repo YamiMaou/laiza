@@ -65,9 +65,10 @@ export default hot(
                 style={{ margin: 'auto' }}
                 src="https://services.yamitec.com/public/assets/images/logo.png"
               />
-              <h3>Pesquisar na Web</h3>
+
               <div
                 style={{
+                  display: 'none',
                   width: '98%',
                   height: 55,
                   border: '1px solid #dedede',

@@ -83,5 +83,5 @@ export const DEFAULT_SETTINGS: ISettings = {
     ? app.getPath('downloads')
     : '',
   doNotTrack: true,
-  topBarVariant: 'default',
+  topBarVariant: 'compact', // compact or default
 };
