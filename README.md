@@ -1,4 +1,5 @@
 <p align="center">
+ <p>
   <a href="https://yamitec.com"><img src="static/icons/icon.png" width="256"></a>
 </p>
 
