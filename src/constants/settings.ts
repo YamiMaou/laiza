@@ -76,7 +76,7 @@ export const DEFAULT_SETTINGS: ISettings = {
   },
   warnOnQuit: false,
   version: 2,
-  downloadsDialog: false,
+  downloadsDialog: true,
   downloadsPath: remote
     ? remote.app.getPath('downloads')
     : app
