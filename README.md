@@ -1,5 +1,3 @@
-sysctl kernel.unprivileged_userns_clone=1
-
 <p align="center">
   <a href="https://yamitec.com"><img src="static/icons/icon.png" width="256"></a>
 </p>
@@ -9,6 +7,10 @@ sysctl kernel.unprivileged_userns_clone=1
 
 Laiza is an extensible and privacy-focused web browser with a totally different user experience, built on top of `Electron` and `React`. It aims to be fast, private, beautiful, extensible and functional.
 
+on linux use snippet to build code
+```bash
+$ sysctl kernel.unprivileged_userns_clone=1
+```
 </div>
 
 # Features
