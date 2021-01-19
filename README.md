@@ -1,7 +1,6 @@
-<p align="center">
- <p>
+<div align="center">
   <a href="https://yamitec.com"><img src="static/icons/icon.png" width="256"></a>
-</p>
+</div>
 
 <div align="center">
   <h1>Laiza</h1>
