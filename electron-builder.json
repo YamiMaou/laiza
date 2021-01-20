@@ -15,7 +15,7 @@
   "linux": {
     "category": "Network",
     "packageCategory": "AudioVideo",
-    "synopsis": "A Extensible Web Browser",
+    "synopsis": "A Extensible 'n quiet Web Browser",
     "icon": "./static/icons",
     "target": [
       {
