@@ -77,6 +77,7 @@ export class View {
       .replace(/ Laiza\\?.([^\s]+)/g, '')
       .replace(/ Electron\\?.([^\s]+)/g, '')
       .replace(/Chrome\\?.([^\s]+)/g, 'Chrome/87.0.4280.141');
+    //.replace('Chrome', 'Chrome/87.0.4280.141');
 
     (this.webContents as any).windowId = window.win.id;
 
@@ -161,7 +162,9 @@ export class View {
         if (disposition === 'new-window') {
           if (frameName === '_self') {
             e.preventDefault();
-            this.window.viewManager.selected.webContents.loadURL(url);
+            this.window.viewManager.selected.webContents.loadURL(url, {
+              userAgent: 'Chrome',
+            });
           } else if (frameName === '_blank') {
             e.preventDefault();
             this.window.viewManager.create(
@@ -264,8 +267,11 @@ export class View {
     });
 
     if (url.startsWith(NEWTAB_URL)) this.isNewTab = true;
-
-    this.webContents.loadURL(url);
+    // NEW TAB USER AGENT
+    this.webContents.loadURL(url, {
+      userAgent:
+        'Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0',
+    });
 
     this.browserView.setAutoResize({
       width: true,

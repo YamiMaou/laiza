@@ -14,6 +14,9 @@
   "publish": "github",
   "linux": {
     "category": "Network",
+    "packageCategory": "AudioVideo",
+    "synopsis": "A Extensible Web Browser",
+    "icon": "./static/icons",
     "target": [
       {
         "target": "AppImage",
