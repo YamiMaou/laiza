@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-  <h1>Laiza</h1>
+  <h1>Laiza Web Brawser</h1>
 
 Laiza is an extensible and privacy-focused web browser with a totally different user experience, built on top of `Electron` and `React`. It aims to be fast, private, beautiful, extensible and functional.
 
