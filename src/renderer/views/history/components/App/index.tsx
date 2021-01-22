@@ -96,25 +96,29 @@ export default hot(
         <Container>
           <WebUIStyle />
           <GlobalNavigationDrawer></GlobalNavigationDrawer>
-          <NavigationDrawer title="History" search onSearchInput={onInput}>
+          <NavigationDrawer
+            title={words.histories.title}
+            search
+            onSearchInput={onInput}
+          >
             <RangeItem icon={ICON_ALL} range="all">
-              All
+              {words.histories.rangeItems.all}
             </RangeItem>
             <RangeItem icon={ICON_TODAY} range="today">
-              Today
+              {words.histories.rangeItems.today}
             </RangeItem>
             <RangeItem icon={ICON_HISTORY} range="yesterday">
-              Yesterday
+              {words.histories.rangeItems.yesterday}
             </RangeItem>
             <RangeItem icon={ICON_WEEK} range="last-week">
-              Last week
+              {words.histories.rangeItems.lastweek}
             </RangeItem>
             <RangeItem icon={ICON_CALENDAR} range="older">
-              Older
+              {words.histories.rangeItems.older}
             </RangeItem>
             <div style={{ flex: 1 }} />
             <NavigationDrawer.Item icon={ICON_TRASH} onClick={onClearClick}>
-              Clear browsing data
+              {words.privacy.browsingData.btn}
             </NavigationDrawer.Item>
           </NavigationDrawer>
           <Content onScroll={onScroll}>

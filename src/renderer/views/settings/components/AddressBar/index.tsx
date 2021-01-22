@@ -15,13 +15,17 @@ import {
 } from './style';
 import { NormalButton } from '../App';
 import { ISearchEngine } from '~/interfaces';
+import Lang from '~/langs';
+
+const langs = new Lang();
+const word = langs.getWord();
 
 const SuggestionsToggle = observer(() => {
   const { suggestions } = store.settings;
 
   return (
     <Row onClick={onSwitchChange('suggestions')}>
-      <Title>Show search and site suggestions</Title>
+      <Title>{word.addressbar.titles.suggestions}</Title>
       <Control>
         <Switch value={suggestions} />
       </Control>
@@ -42,7 +46,7 @@ const SearchEngineRow = observer(() => {
 
   return (
     <Row>
-      <Title>Search engine used in the address bar</Title>
+      <Title>{word.addressbar.titles.searchEngine}</Title>
       <Control>
         <Dropdown defaultValue={se.name} onChange={onSearchEngineChange}>
           {Object.values(store.settings.searchEngines).map((item, key) => (
@@ -77,7 +81,7 @@ export const SearchEngine = observer(({ data }: { data: ISearchEngine }) => {
     <TableRow bold={isDefault}>
       <TableCell>
         <div>
-          {data.name} {isDefault && '(Default)'}
+          {data.name} {isDefault && word.addressbar.label.default}
         </div>
       </TableCell>
       <TableCell>
@@ -104,19 +108,19 @@ export const ManageSearchEngines = observer(() => {
     <>
       <Header>
         <Back onClick={onBackClick} />
-        Manage search engines
+        {word.addressbar.header.manageSearchEngines}
       </Header>
       <Row>
-        <Title>Address bar search engines</Title>
+        <Title>{word.addressbar.titles.addrSearchEngines}</Title>
         <Control>
           <NormalButton onClick={onAddClick}>Add</NormalButton>
         </Control>
       </Row>
       <EnginesTable>
         <TableRow>
-          <TableHeader>Search engine</TableHeader>
-          <TableHeader>Keyword</TableHeader>
-          <TableHeader>URL</TableHeader>
+          <TableHeader>{word.settings.searchengine.title}</TableHeader>
+          <TableHeader>{word.settings.searchengine.labels.keyword}</TableHeader>
+          <TableHeader>{word.settings.searchengine.labels.url}</TableHeader>
           <TableHeader></TableHeader>
         </TableRow>
         {store.settings.searchEngines.map((item, key) => (
@@ -134,11 +138,11 @@ const onManageSearchEngines = () => {
 export const AddressBar = observer(() => {
   return (
     <>
-      <Header>Address bar</Header>
+      <Header>{word.settings.addressbar}</Header>
       <SuggestionsToggle />
       <SearchEngineRow />
       <Row onClick={onManageSearchEngines}>
-        <Title>Manage search engines</Title>
+        <Title>{word.addressbar.header.manageSearchEngines}</Title>
         <Control></Control>
       </Row>
     </>

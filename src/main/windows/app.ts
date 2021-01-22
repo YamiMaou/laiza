@@ -7,6 +7,10 @@ import { runMessagingService } from '../services';
 import { Application } from '../application';
 import { isNightly } from '..';
 import { ViewManager } from '../view-manager';
+import Langs from '~/langs';
+
+const lang = new Langs();
+const word = lang.getWord();
 
 export class AppWindow {
   public win: BrowserWindow;
@@ -114,12 +118,13 @@ export class AppWindow {
       const { object: settings } = Application.instance.settings;
 
       if (settings.warnOnQuit && this.viewManager.views.size > 1) {
+        const vmSize = this.viewManager.views.size + '';
         const answer = dialog.showMessageBoxSync(null, {
           type: 'question',
-          title: `Quit ${app.name}?`,
-          message: `Quit ${app.name}?`,
-          detail: `You have ${this.viewManager.views.size} tabs open.`,
-          buttons: ['Close', 'Cancel'],
+          title: `${word.general.quit.title.replace('%s', app.name)}`,
+          message: `${word.general.quit.message.replace('%s', app.name)}`,
+          detail: `${word.general.quit.details.replace('%s', vmSize)}`,
+          buttons: ['Fechar', 'Cancelar'],
         });
 
         if (answer === 1) {

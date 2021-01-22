@@ -7,6 +7,10 @@ import store from '../../store';
 import { onSwitchChange } from '../../utils';
 import { observer } from 'mobx-react-lite';
 import { TopBarVariant } from '~/interfaces';
+import Lang from '~/langs';
+
+const langs = new Lang();
+const word = langs.getWord();
 
 const onThemeChange = (value: string) => {
   if (value === 'auto') {
@@ -24,15 +28,21 @@ const ThemeVariant = observer(() => {
 
   return (
     <Row>
-      <Title>Theme variant</Title>
+      <Title>{word.appeareance.themeVariant.title}</Title>
       <Control>
         <Dropdown
           defaultValue={store.settings.themeAuto ? 'auto' : defaultValue}
           onChange={onThemeChange}
         >
-          <Dropdown.Item value="auto">Auto</Dropdown.Item>
-          <Dropdown.Item value="wexond-light">Light</Dropdown.Item>
-          <Dropdown.Item value="wexond-dark">Dark</Dropdown.Item>
+          <Dropdown.Item value="auto">
+            {word.appeareance.themeVariant.items.auto}
+          </Dropdown.Item>
+          <Dropdown.Item value="laiza-light">
+            {word.appeareance.themeVariant.items.light}
+          </Dropdown.Item>
+          <Dropdown.Item value="laiza-dark">
+            {word.appeareance.themeVariant.items.dark}
+          </Dropdown.Item>
         </Dropdown>
       </Control>
     </Row>
@@ -47,14 +57,18 @@ const onTopBarChange = (value: TopBarVariant) => {
 const TopBarVariant = observer(() => {
   return (
     <Row>
-      <Title>Top bar variant</Title>
+      <Title>{word.appeareance.topBar.title}</Title>
       <Control>
         <Dropdown
           defaultValue={store.settings.topBarVariant}
           onChange={onTopBarChange}
         >
-          <Dropdown.Item value="default">Full</Dropdown.Item>
-          <Dropdown.Item value="compact">Compact</Dropdown.Item>
+          <Dropdown.Item value="default">
+            {word.appeareance.topBar.default}
+          </Dropdown.Item>
+          <Dropdown.Item value="compact">
+            {word.appeareance.topBar.compact}
+          </Dropdown.Item>
         </Dropdown>
       </Control>
     </Row>
@@ -66,7 +80,7 @@ const WarnQuit = observer(() => {
 
   return (
     <Row onClick={onSwitchChange('warnOnQuit')}>
-      <Title>Show warning dialog when closing multiple tabs</Title>
+      <Title>{word.appeareance.titles.warnOnQuit}</Title>
       <Control>
         <Switch value={warnOnQuit} />
       </Control>
@@ -79,7 +93,7 @@ const MenuAnimations = observer(() => {
 
   return (
     <Row onClick={onSwitchChange('animations')}>
-      <Title>Menu animations</Title>
+      <Title>{word.appeareance.titles.menuAnimations}</Title>
       <Control>
         <Switch value={animations} />
       </Control>
@@ -92,7 +106,7 @@ const BookmarksBar = observer(() => {
 
   return (
     <Row onClick={onSwitchChange('bookmarksBar')}>
-      <Title>Show bookmarks bar</Title>
+      <Title>{word.appeareance.titles.bookmarksBar}</Title>
       <Control>
         <Switch value={bookmarksBar} />
       </Control>
@@ -103,7 +117,7 @@ const BookmarksBar = observer(() => {
 export const Appearance = observer(() => {
   return (
     <>
-      <Header>Appearance</Header>
+      <Header>{word.settings.appearance}</Header>
       {/* <MenuAnimations /> */}
       <BookmarksBar />
       <WarnQuit />

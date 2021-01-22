@@ -1,4 +1,8 @@
 import { daysList, monthsList } from '~/renderer/constants/dictionary';
+import Langs from '~/langs';
+
+const lang = new Langs();
+const word = lang.getWord();
 
 export const compareDates = (first: Date, second: Date) => {
   return (
@@ -19,9 +23,9 @@ export const getSectionLabel = (date: Date) => {
     date.getMonth() === current.getMonth()
   ) {
     if (current.getDate() === date.getDate()) {
-      prefix = 'Today - ';
+      prefix = `${word.histories.rangeItems.today} - `;
     } else if (current.getDate() - 1 === date.getDate()) {
-      prefix = 'Yesterday - ';
+      prefix = `${word.histories.rangeItems.yesterday} - `;
     }
   }
 

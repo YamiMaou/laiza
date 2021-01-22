@@ -9,6 +9,10 @@ import {
   Header,
 } from './style';
 import { NavigationDrawerItem } from './NavigationDrawerItem';
+import Langs from '~/langs';
+
+const lang = new Langs();
+const word = lang.getWord();
 
 export const NavigationDrawer = ({
   children,
@@ -35,7 +39,10 @@ export const NavigationDrawer = ({
       )}
       {search && (
         <Search>
-          <Input placeholder="Search" onInput={onSearchInput} />
+          <Input
+            placeholder={word.settings.search.placeholder}
+            onInput={onSearchInput}
+          />
         </Search>
       )}
       <MenuItems>{children}</MenuItems>

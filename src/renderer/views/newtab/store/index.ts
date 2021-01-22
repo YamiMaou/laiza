@@ -239,15 +239,26 @@ export class Store {
 
   public async loadNews() {
     try {
-      const { data } = await networkMainChannel.getInvoker().request(''); // ?lang=
-      const json = JSON.parse(data);
-
-      if (json.articles) {
+      /*const { data } = await networkMainChannel
+        .getInvoker()
+        .request('https://yamitec.com'); // ?lang=
+      const notices = await networkMainChannel.getInvoker();
+      alert(notices);
+      const json = JSON.parse(data);*/
+      fetch(
+        'https://api.cognitive.microsoft.com/bing/v7.0/news/search?q=sailing+dinghies&mkt=en-us',
+      )
+        .then((data) => {
+          console.log(data);
+        })
+        .catch();
+      /*if (json.articles) {
         this.news = this.news.concat(json.articles);
       } else {
         throw new Error('Error fetching news');
-      }
+      }*/
     } catch (e) {
+      console.log(e);
       throw e;
     }
   }

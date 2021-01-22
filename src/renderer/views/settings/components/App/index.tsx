@@ -36,6 +36,10 @@ import {
 } from '~/renderer/views/bookmarks/components/App/style';
 import { Textfield } from '~/renderer/components/Textfield';
 import { WebUIStyle } from '~/renderer/mixins/default-styles';
+import Lang from '~/langs';
+
+const langs = new Lang();
+const word = langs.getWord();
 
 export const NormalButton = ({
   children,
@@ -147,9 +151,9 @@ export default hot(
     let dialogTitle = '';
 
     if (store.dialogContent === 'edit-search-engine') {
-      dialogTitle = 'Edit search engine';
+      dialogTitle = word.settings.searchengine.edit;
     } else if (store.dialogContent === 'add-search-engine') {
-      dialogTitle = 'Add search engine';
+      dialogTitle = word.settings.searchengine.add;
     }
 
     return (
@@ -177,16 +181,16 @@ export default hot(
                 store.searchEngine.keyword && (
                 <>
                   <ContextMenuItem onClick={onMakeDefaultClick} icon=" ">
-                    Make default
+                    {word.settings.searchengine.btn.makedefault}
                   </ContextMenuItem>
                   <ContextMenuItem onClick={onRemoveClick} icon={ICON_TRASH}>
-                    Remove
+                    {word.settings.searchengine.btn.remove}
                   </ContextMenuItem>
                 </>
               )}
             {store.editedSearchEngine && (
               <ContextMenuItem onClick={onEditClick} icon={ICON_EDIT}>
-                Edit
+                {word.settings.searchengine.btn.edit}
               </ContextMenuItem>
             )}
           </ContextMenu>
@@ -201,7 +205,7 @@ export default hot(
               style={{ width: '100%' }}
               dark={store.theme['dialog.lightForeground']}
               ref={store.searchEngineInputRef}
-              label="Search engine"
+              label={word.settings.searchengine.labels.title}
             ></Textfield>
 
             <Textfield
@@ -211,7 +215,7 @@ export default hot(
               }}
               dark={store.theme['dialog.lightForeground']}
               ref={store.searchEngineKeywordInputRef}
-              label="Keyword"
+              label={word.settings.searchengine.labels.keyword}
             ></Textfield>
 
             <Textfield
@@ -221,43 +225,43 @@ export default hot(
               }}
               dark={store.theme['dialog.lightForeground']}
               ref={store.searchEngineUrlInputRef}
-              label="URL with %s in place of query"
+              label={word.settings.searchengine.labels.url}
             ></Textfield>
 
             <DialogButtons>
               <NormalButton onClick={() => (store.dialogVisible = false)}>
-                Cancel
+                {word.settings.searchengine.btn.cancel}
               </NormalButton>
               <Button onClick={onSaveClick} style={{ marginLeft: 8 }}>
-                Save
+                {word.settings.searchengine.btn.save}
               </Button>
             </DialogButtons>
             <div style={{ clear: 'both' }}></div>
           </Dialog>
           <NavigationDrawer title="Settings" search>
             <MenuItem icon={ICON_PALETTE} section="appearance">
-              Appearance
+              {word.settings.appearance}
             </MenuItem>
             {process.env.ENABLE_AUTOFILL && (
               <MenuItem icon={ICON_AUTOFILL} section="autofill">
-                Autofill
+                {word.settings.appearance}
               </MenuItem>
             )}
             <MenuItem icon={ICON_POWER} section="startup">
-              On startup
+              {word.settings.startup}
             </MenuItem>
             <MenuItem
               icon={ICON_SEARCH}
               section="address-bar"
               subSections={['search-engines']}
             >
-              Address bar
+              {word.settings.addressbar}
             </MenuItem>
             <MenuItem icon={ICON_DOWNLOAD} section="downloads">
-              Downloads
+              {word.settings.downloads}
             </MenuItem>
             <MenuItem icon={ICON_SHIELD} section="privacy">
-              Privacy
+              {word.settings.privacy}
             </MenuItem>
             {/* <MenuItem section="permissions">Site permissions</MenuItem> */}
 

@@ -60,9 +60,3 @@ $ npm run dev
 # Documentation
 
 Guides and the API reference are located in [`docs`](docs) directory.
-
-# License
-
-For commercial or proprietary purposes, please contact me on sentialx@gmail.com
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FLaiza%2FLaiza.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FLaiza%2FLaiza?ref=badge_large)

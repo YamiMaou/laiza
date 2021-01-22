@@ -35,6 +35,10 @@ import {
   ICON_NEW_FOLDER,
 } from '~/renderer/constants';
 import { WebUIStyle } from '~/renderer/mixins/default-styles';
+import Langs from '~/langs';
+
+const lang = new Langs();
+const word = lang.getWord();
 
 const onScroll = (e: any) => {
   const scrollPos = e.target.scrollTop;
@@ -157,12 +161,12 @@ const BookmarksList = observer(() => {
 
 export default hot(
   observer(() => {
-    let dialogTitle = 'New folder';
+    let dialogTitle = word.bookmarks.btn.newFolder;
 
     if (store.dialogContent === 'edit') {
-      dialogTitle = 'Edit bookmark';
+      dialogTitle = word.bookmarks.titles.edit;
     } else if (store.dialogContent === 'rename-folder') {
-      dialogTitle = 'Rename folder';
+      dialogTitle = word.bookmarks.titles.rename;
     }
 
     return (
@@ -173,20 +177,24 @@ export default hot(
         >
           <WebUIStyle />
           <GlobalNavigationDrawer></GlobalNavigationDrawer>
-          <NavigationDrawer title="Bookmarks" search onSearchInput={onInput}>
+          <NavigationDrawer
+            title={word.bookmarks.titles.index}
+            search
+            onSearchInput={onInput}
+          >
             <Tree />
             <div style={{ flex: 1 }} />
             <NavigationDrawer.Item
               icon={ICON_NEW_FOLDER}
               onClick={onNewFolderClick}
             >
-              New folder
+              {word.bookmarks.btn.newFolder}
             </NavigationDrawer.Item>
             <NavigationDrawer.Item icon={ICON_DOWNLOAD} onClick={onImportClick}>
-              Import
+              {word.bookmarks.btn.import}
             </NavigationDrawer.Item>
             <NavigationDrawer.Item icon={ICON_SAVE} onClick={onExportClick}>
-              Export
+              {word.bookmarks.btn.export}
             </NavigationDrawer.Item>
           </NavigationDrawer>
           <ContextMenu
@@ -199,19 +207,19 @@ export default hot(
           >
             {store.currentBookmark && !store.currentBookmark.isFolder && (
               <ContextMenuItem onClick={onEditClick} icon={ICON_EDIT}>
-                Edit
+                {word.bookmarks.btn.edit}
               </ContextMenuItem>
             )}
             {store.currentBookmark && store.currentBookmark.isFolder && (
               <ContextMenuItem onClick={onRenameClick} icon={ICON_EDIT}>
-                Rename
+                {word.bookmarks.btn.rename}
               </ContextMenuItem>
             )}
             <ContextMenuItem
               onClick={onRemoveClick(store.currentBookmark)}
               icon={ICON_TRASH}
             >
-              Delete
+              {word.bookmarks.btn.delete}
             </ContextMenuItem>
           </ContextMenu>
           <Content onScroll={onScroll}>
@@ -250,10 +258,10 @@ export default hot(
                 store.theme['dialog.lightForeground'] ? 'white' : 'black'
               }
             >
-              Cancel
+              {word.bookmarks.btn.cancel}
             </Button>
             <Button onClick={onSaveClick} style={{ marginLeft: 8 }}>
-              Save
+              {word.bookmarks.btn.save}
             </Button>
           </DialogButtons>
           <div style={{ clear: 'both' }}></div>

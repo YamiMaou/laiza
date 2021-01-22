@@ -8,7 +8,7 @@ const extract = promisify(extractZip);
 
 const darkreaderPath = resolve(
   __dirname,
-  '../build/extensions/wexond-darkreader',
+  '../build/extensions/laiza-darkreader',
 );
 
 mkdir(darkreaderPath, { recursive: true }, async err => {

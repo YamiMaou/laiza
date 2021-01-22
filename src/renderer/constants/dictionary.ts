@@ -1,24 +1,8 @@
-export const monthsList = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+import Langs from '~/langs';
 
-export const daysList = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
+const lang = new Langs();
+const word = lang.getWord();
+
+export const monthsList = word.monthList;
+
+export const daysList = word.dayList;

@@ -7,13 +7,17 @@ import { onSwitchChange } from '../../utils';
 import { ipcRenderer } from 'electron';
 import { observer } from 'mobx-react-lite';
 import { NormalButton } from '../App';
+import Lang from '~/langs';
+
+const langs = new Lang();
+const word = langs.getWord();
 
 const AskToggle = observer(() => {
   const { downloadsDialog } = store.settings;
 
   return (
     <Row onClick={onSwitchChange('downloadsDialog')}>
-      <Title>Ask where to save each file before downloading</Title>
+      <Title>{word.downloads.titles.askwheresave}</Title>
       <Control>
         <Switch value={downloadsDialog} />
       </Control>
@@ -29,12 +33,14 @@ const Location = observer(() => {
   return (
     <Row>
       <div>
-        <Title>Location</Title>
+        <Title>{word.downloads.titles.location}</Title>
         <SecondaryText>{store.settings.downloadsPath}</SecondaryText>
       </div>
 
       <Control>
-        <NormalButton onClick={onChangeClick}>Change</NormalButton>
+        <NormalButton onClick={onChangeClick}>
+          {word.downloads.btn.change}
+        </NormalButton>
       </Control>
     </Row>
   );
@@ -43,7 +49,7 @@ const Location = observer(() => {
 export const Downloads = () => {
   return (
     <>
-      <Header>Downloads</Header>
+      <Header>{word.downloads.headers.downloads}</Header>
       <Location />
       <AskToggle />
     </>

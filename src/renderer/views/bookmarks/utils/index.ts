@@ -1,19 +1,23 @@
 import { IBookmark } from '~/interfaces';
 import store from '../store';
+import Langs from '~/langs';
+
+const lang = new Langs();
+const word = lang.getWord();
 
 export const getBookmarkTitle = (item: IBookmark) => {
   if (!item.static) return item.title;
 
   if (item.static === 'main') {
-    return 'Bookmarks bar';
+    return word.bookmarks.titles.bar;
   }
 
   if (item.static === 'mobile') {
-    return 'Mobile bookmarks';
+    return word.bookmarks.titles.mobile;
   }
 
   if (item.static === 'other') {
-    return 'Other bookmarks';
+    return word.bookmarks.titles.others;
   }
 
   return '';
