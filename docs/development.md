@@ -1,5 +1,14 @@
 # Development
 
+## Make new page
+
+create new component in ``` ./src/renderer/views ``` path and add index name to url in 
+``` 
+applyEntries('web', webConfig, [ ... ]);
+``` 
+in ```.\webpack.config.web.js```  file.
+to acess page use ```getWebUIURL(COMPONENT_NAME)``` from ```./src/common/webui.ts``` file
+
 ## IPC
 
 Now, the preferred way to communicate between processes is to use [`@laiza/rpc-electron`](https://github.com/laiza/rpc) package.

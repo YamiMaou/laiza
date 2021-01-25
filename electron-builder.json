@@ -1,5 +1,5 @@
 {
-  "appId": "org.yamitec.laiza",
+  "appId": "com.yamitec.laiza",
   "productName": "Laiza",
   "nsis": {
     "include": "static/installer.nsh"

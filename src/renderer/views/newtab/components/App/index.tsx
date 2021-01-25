@@ -113,6 +113,12 @@ export default hot(
                   icon={ICON_BOOKMARKS}
                   onClick={onIconClick('bookmarks')}
                 ></IconItem>
+                <IconItem
+                  imageSet={store.imageVisible}
+                  title={words.menu.bookmarks}
+                  icon={ICON_DOWNLOAD}
+                  onClick={onIconClick('maou')}
+                ></IconItem>
                 {/* <IconItem
                   imageSet={store.imageVisible}
                   title={words.menu.downloads}

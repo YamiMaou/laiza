@@ -18,7 +18,13 @@ const webConfig = getConfig(getBaseConfig('web'), {
 
   externals: { electron: 'require("electron")' },
 });
-
-applyEntries('web', webConfig, ['settings', 'history', 'newtab', 'bookmarks']);
+// ADICIONAR LINKS
+applyEntries('web', webConfig, [
+  'maou',
+  'settings',
+  'history',
+  'newtab',
+  'bookmarks',
+]);
 
 module.exports = webConfig;
