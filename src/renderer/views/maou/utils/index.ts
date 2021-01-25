@@ -1,66 +1,42 @@
-import { IBookmark } from '~/interfaces';
-import store from '../store';
+import { daysList, monthsList } from '~/renderer/constants/dictionary';
 import Langs from '~/langs';
 
 const lang = new Langs();
 const word = lang.getWord();
 
-export const getBookmarkTitle = (item: IBookmark) => {
-  if (!item.static) return item.title;
-
-  if (item.static === 'main') {
-    return word.bookmarks.titles.bar;
-  }
-
-  if (item.static === 'mobile') {
-    return word.bookmarks.titles.mobile;
-  }
-
-  if (item.static === 'other') {
-    return word.bookmarks.titles.others;
-  }
-
-  return '';
+export const compareDates = (first: Date, second: Date) => {
+  return (
+    first != null &&
+    second != null &&
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate()
+  );
 };
 
-export const addImported = async (arr: any[], parent: IBookmark = null) => {
-  let order = 0;
+export const getSectionLabel = (date: Date) => {
+  let prefix = '';
+  const current = new Date();
 
-  for (const item of arr) {
-    if (item.nsRoot) {
-      let folder: IBookmark = null;
-
-      if (item.nsRoot === 'toolbar') {
-        folder = store.list.find((x) => x.static === 'main');
-      } else {
-        folder = store.list.find((x) => x.static === 'other');
-      }
-
-      if (folder) {
-        addImported(item.children, folder);
-      }
-
-      return;
+  if (
+    date.getFullYear() === current.getFullYear() &&
+    date.getMonth() === current.getMonth()
+  ) {
+    if (current.getDate() === date.getDate()) {
+      prefix = `${word.histories.rangeItems.today} - `;
+    } else if (current.getDate() - 1 === date.getDate()) {
+      prefix = `${word.histories.rangeItems.yesterday} - `;
     }
-
-    const bookmark = await store.addItem({
-      isFolder: item.type === 'folder',
-      title: item.title,
-      url: item.url,
-      parent: parent && parent._id,
-      children: [],
-      favicon: item.icon,
-      order,
-    });
-
-    if (parent) {
-      parent.children.push(bookmark._id);
-    }
-
-    if (bookmark.isFolder) {
-      addImported(item.children, bookmark);
-    }
-
-    order++;
   }
+
+  return `${prefix}${daysList[date.getDay()]}, ${
+    monthsList[date.getMonth()]
+  } ${date.getDate()}, ${date.getFullYear()}`;
+};
+
+export const formatTime = (date: Date) => {
+  return `${date
+    .getHours()
+    .toString()
+    .padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 };

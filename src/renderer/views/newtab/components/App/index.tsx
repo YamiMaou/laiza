@@ -25,6 +25,7 @@ import { InputContainer } from '~/renderer/views/app/components/AddressBar/style
 
 import { AddressBarContainer } from '~/renderer/views/app/components/AddressBarContainer';
 
+import icon from '../../assets/icons/icon.png';
 const langs = new Langs();
 const words = langs.getWord();
 
@@ -112,12 +113,6 @@ export default hot(
                   title={words.menu.bookmarks}
                   icon={ICON_BOOKMARKS}
                   onClick={onIconClick('bookmarks')}
-                ></IconItem>
-                <IconItem
-                  imageSet={store.imageVisible}
-                  title={words.menu.bookmarks}
-                  icon={ICON_DOWNLOAD}
-                  onClick={onIconClick('maou')}
                 ></IconItem>
                 {/* <IconItem
                   imageSet={store.imageVisible}

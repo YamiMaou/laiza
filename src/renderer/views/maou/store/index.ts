@@ -1,124 +1,141 @@
-import { observable, computed, action, toJS, makeObservable } from 'mobx';
-import { ISettings, IFavicon, ITheme, IBookmark } from '~/interfaces';
+import { observable, computed, makeObservable } from 'mobx';
+import { ISettings, ITheme, IVisitedItem } from '~/interfaces';
 import { getTheme } from '~/utils/themes';
-import { PreloadDatabase } from '~/preloads/models/database';
-import { ipcRenderer } from 'electron';
-import * as React from 'react';
-import { Textfield } from '~/renderer/components/Textfield';
+import { INewsItem } from '~/interfaces/news-item';
+import { networkMainChannel } from '~/common/rpc/network';
+
+type NewsBehavior = 'on-scroll' | 'always-visible' | 'hidden';
+export type Preset = 'focused' | 'inspirational' | 'informational' | 'custom';
 
 export class Store {
-  public faviconsDb = new PreloadDatabase<IFavicon>('favicons');
-
-  public nameInputRef = React.createRef<Textfield>();
-
-  public urlInputRef = React.createRef<Textfield>();
-
   @observable
   public settings: ISettings = { ...(window as any).settings };
-
-  @observable
-  public list: IBookmark[] = [];
-
-  @observable
-  public itemsLoaded = this.getDefaultLoaded();
-
-  @observable
-  public menuLeft = 0;
-
-  @observable
-  public menuTop = 0;
-
-  @observable
-  public menuVisible = false;
-
-  @observable
-  public searched = '';
-
-  @observable
-  public selectedItems: string[] = [];
-
-  @observable
-  public favicons: Map<string, string> = new Map();
-
-  @observable
-  public currentFolder: string = null;
-
-  @observable
-  private _dialogVisible = false;
-
-  public showDialog(content: 'edit' | 'new-folder' | 'rename-folder') {
-    this.dialogContent = content;
-    this.dialogVisible = true;
-
-    if (content === 'edit' || content === 'rename-folder') {
-      this.nameInputRef.current.value = this.currentBookmark.title;
-
-      if (content === 'edit') {
-        this.urlInputRef.current.value = this.currentBookmark.url;
-      }
-    }
-
-    this.nameInputRef.current.inputRef.current.focus();
-    this.nameInputRef.current.inputRef.current.select();
-  }
-
-  @observable
-  public dialogContent: 'edit' | 'new-folder' | 'rename-folder' = 'new-folder';
-
-  @observable
-  public currentBookmark: IBookmark = null;
-
-  // Computed
-
-  @computed
-  public get visibleItems() {
-    return this.list
-      .filter(
-        (x) =>
-          (this.searched !== '' &&
-            ((x.url &&
-              x.url.toLowerCase().includes(this.searched.toLowerCase())) ||
-              (x.title &&
-                x.title
-                  .toLowerCase()
-                  .includes(this.searched.toLowerCase())))) ||
-          (this.searched === '' && x.parent === this.currentFolder),
-      )
-      .slice()
-      .sort((a, b) => {
-        return a.order - b.order;
-      });
-  }
-
-  @computed
-  public get dialogVisible() {
-    return this._dialogVisible;
-  }
-
-  public set dialogVisible(value: boolean) {
-    if (!value) {
-      this.nameInputRef.current.value = '';
-    }
-
-    this.menuVisible = false;
-
-    this._dialogVisible = value;
-  }
 
   @computed
   public get theme(): ITheme {
     return getTheme(this.settings.theme);
   }
 
+  @observable
+  public news: INewsItem[] = [];
+
+  @observable
+  private _newsBehavior: NewsBehavior = 'on-scroll';
+
   @computed
-  public get path() {
-    return this.getFolderPath(this.currentFolder);
+  public get newsBehavior() {
+    return this._newsBehavior;
+  }
+
+  public set newsBehavior(value: NewsBehavior) {
+    this._newsBehavior = value;
+
+    if (value === 'always-visible') {
+      this.loadNews();
+    }
   }
 
   @computed
-  public get folders() {
-    return this.list.filter((x) => x.isFolder);
+  public get fullSizeImage() {
+    return this.newsBehavior === 'on-scroll' || this.newsBehavior === 'hidden';
   }
+
+  @observable
+  public image = '';
+
+  @observable
+  private _imageVisible = true;
+
+  public set imageVisible(value: boolean) {
+    this._imageVisible = value;
+    if (value && this.image == '') this.loadImage();
+  }
+
+  @computed
+  public get imageVisible() {
+    return this._imageVisible;
+  }
+
+  @observable
+  public changeImageDaily = true;
+
+  @observable
+  public topSitesVisible = true;
+
+  @observable
+  public quickMenuVisible = true;
+
+  @observable
+  public overflowVisible = false;
+
+  @observable
+  private _preferencesContent: 'main' | 'custom' = 'main';
+
+  public set preferencesContent(value: 'main' | 'custom') {
+    this._preferencesContent = value;
+    this.overflowVisible = false;
+  }
+
+  @computed
+  public get preferencesContent() {
+    return this._preferencesContent;
+  }
+
+  @observable
+  private _dashboardSettingsVisible = false;
+
+  public set dashboardSettingsVisible(value: boolean) {
+    this._dashboardSettingsVisible = value;
+
+    if (!value) {
+      this.preferencesContent = 'main';
+    }
+  }
+
+  @computed
+  public get dashboardSettingsVisible() {
+    return this._dashboardSettingsVisible;
+  }
+
+  @observable
+  private _preset: Preset = 'inspirational';
+
+  @computed
+  public get preset() {
+    return this._preset;
+  }
+
+  public set preset(value: Preset) {
+    this._preset = value;
+
+    if (['focused', 'informational', 'inspirational'].includes(value)) {
+      this.quickMenuVisible = true;
+      this.topSitesVisible = true;
+      this.changeImageDaily = true;
+    }
+
+    if (['focused', 'inspirational'].includes(value)) {
+      this.newsBehavior = 'on-scroll';
+    }
+
+    if (['informational', 'inspirational'].includes(value)) {
+      this.imageVisible = true;
+    }
+
+    if (value === 'focused') {
+      this.imageVisible = false;
+    } else if (value === 'informational') {
+      this.newsBehavior = 'always-visible';
+    }
+
+    localStorage.setItem('preset', value);
+  }
+
+  private page = 1;
+  private loaded = true;
+
+  @observable
+  public topSites: IVisitedItem[] = [];
 
   public constructor() {
     makeObservable(this);
@@ -127,98 +144,127 @@ export class Store {
       this.settings = { ...this.settings, ...settings };
     };
 
-    this.load();
-    this.loadFavicons();
+    this.preset = localStorage.getItem('preset') as Preset;
 
-    window.addEventListener('resize', () => {
-      const loaded = this.getDefaultLoaded();
+    if (this.preset === 'custom') {
+      [
+        'changeImageDaily',
+        'quickMenuVisible',
+        'topSitesVisible',
+        'imageVisible',
+      ].forEach(
+        (x) =>
+          ((this as any)[x] =
+            localStorage.getItem(x) == null
+              ? (this as any)[x]
+              : JSON.parse(localStorage.getItem(x))),
+      );
 
-      if (loaded > this.itemsLoaded) {
-        this.itemsLoaded = loaded;
-      }
-    });
-
-    window.addEventListener('mousedown', () => {
-      this.menuVisible = false;
-    });
-  }
-
-  public resetLoadedItems(): void {
-    this.itemsLoaded = this.getDefaultLoaded();
-  }
-
-  public getById(id: string) {
-    return this.list.find((x) => x._id === id);
-  }
-
-  public async load() {
-    const items: IBookmark[] = await ipcRenderer.invoke('bookmarks-get');
-    this.list = items.map((x) => ({ ...x }));
-    this.currentFolder = this.list.find((x) => x.static === 'main')._id;
-  }
-
-  public async loadFavicons() {
-    (await this.faviconsDb.get({})).forEach((favicon) => {
-      const { data } = favicon;
-
-      if (this.favicons.get(favicon.url) == null) {
-        this.favicons.set(favicon.url, data);
-      }
-    });
-  }
-
-  public removeItems(ids: string[]) {
-    for (const id of ids) {
-      const item = this.list.find((x) => x._id === id);
-      const parent = this.list.find((x) => x._id === item.parent);
-      parent.children = parent.children.filter((x) => x !== id);
-    }
-    this.list = this.list.filter((x) => !ids.includes(x._id));
-
-    ipcRenderer.send('bookmarks-remove', toJS(ids));
-  }
-
-  public async addItem(item: IBookmark) {
-    const i = await ipcRenderer.invoke('bookmarks-add', item);
-    this.list.push({ ...i });
-    this.list.find((x) => x._id === i.parent).children.push(i._id);
-    return i;
-  }
-
-  public async updateItem(id: string, change: IBookmark) {
-    const index = this.list.indexOf(this.list.find((x) => x._id === id));
-    this.list[index] = { ...this.list[index], ...change };
-    ipcRenderer.send('bookmarks-update', id, toJS(change));
-  }
-
-  @action
-  public search(str: string) {
-    this.searched = str.toLowerCase().toLowerCase();
-    this.itemsLoaded = this.getDefaultLoaded();
-  }
-
-  public getDefaultLoaded() {
-    return Math.floor(window.innerHeight / 48);
-  }
-
-  @action
-  public deleteSelected() {
-    this.removeItems(this.selectedItems);
-    this.selectedItems = [];
-  }
-
-  private getFolderPath(parent: string) {
-    const parentFolder = this.list.find((x) => x._id === parent);
-    let path: IBookmark[] = [];
-
-    if (parentFolder == null) return [];
-
-    if (parentFolder.parent != null) {
-      path = path.concat(this.getFolderPath(parentFolder.parent));
+      this.newsBehavior = localStorage.getItem('newsBehavior') as NewsBehavior;
     }
 
-    path.push(parentFolder);
-    return path;
+    if (this.imageVisible) {
+      this.loadImage();
+    }
+
+    this.loadTopSites();
+
+    window.onscroll = () => {
+      this.updateNews();
+    };
+
+    window.onresize = () => {
+      this.updateNews();
+    };
+  }
+
+  public async loadImage() {
+    let url = localStorage.getItem('imageURL');
+    let isNewUrl = false;
+
+    if (this.changeImageDaily) {
+      const dateString = localStorage.getItem('imageDate');
+
+      if (dateString && dateString !== '') {
+        const date = new Date(dateString);
+        const date2 = new Date();
+        const diffTime = Math.floor(
+          (date2.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+        );
+
+        if (diffTime > 1) {
+          url = '';
+          isNewUrl = true;
+        }
+      }
+    }
+
+    if (!url || url == '') {
+      url = 'https://picsum.photos/1920/1080';
+      isNewUrl = true;
+    }
+
+    fetch(url)
+      .then((response) => Promise.all([response.url, response.blob()]))
+      .then(([resource, blob]) => {
+        this.image = URL.createObjectURL(blob);
+
+        return resource;
+      })
+      .then((imgUrl) => {
+        if (isNewUrl) {
+          localStorage.setItem('imageURL', imgUrl);
+          localStorage.setItem('imageDate', new Date().toString());
+        }
+      })
+      .catch((e) => console.error(e));
+  }
+
+  public async updateNews() {
+    const scrollPos = window.scrollY;
+    const scrollMax =
+      document.body.scrollHeight - document.body.clientHeight - 768;
+
+    if (scrollPos >= scrollMax && this.loaded && this.page !== 10) {
+      this.page++;
+      this.loaded = false;
+      try {
+        await this.loadNews();
+      } catch (e) {
+        console.error(e);
+      }
+      this.loaded = true;
+    }
+  }
+
+  public async loadNews() {
+    try {
+      /*const { data } = await networkMainChannel
+        .getInvoker()
+        .request('https://yamitec.com'); // ?lang=
+      const notices = await networkMainChannel.getInvoker();
+      alert(notices);
+      const json = JSON.parse(data);*/
+      fetch(
+        'https://api.cognitive.microsoft.com/bing/v7.0/news/search?q=sailing+dinghies&mkt=en-us',
+      )
+        .then((data) => {
+          console.log(data);
+        })
+        .catch();
+      /*if (json.articles) {
+        this.news = this.news.concat(json.articles);
+      } else {
+        throw new Error('Error fetching news');
+      }*/
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  public async loadTopSites() {
+    this.topSites = await (window as any).getTopSites(8);
   }
 }
 

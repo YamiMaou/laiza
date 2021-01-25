@@ -158,7 +158,7 @@ if (
   (async function () {
     if (settings.doNotTrack) {
       const w = await webFrame.executeJavaScript('window');
-      Object.defineProperty(w.navigator, 'doNotTrack', { value: 0 });
+      Object.defineProperty(w.navigator, 'doNotTrack', { value: 1 });
     }
   })();
 }
