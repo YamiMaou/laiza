@@ -13,6 +13,11 @@ import {
 import { Buttons, Separator } from './style';
 import store from '../../store';
 import { SiteButtons } from '../SiteButtons';
+import Langs from '~/langs';
+import { word } from '~/langs/pt-br';
+
+const lang = new Langs();
+const words = lang.getWord();
 
 let menuRef: HTMLDivElement = null;
 
@@ -55,7 +60,7 @@ const onShieldContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
   const menu = remote.Menu.buildFromTemplate([
     {
       checked: store.settings.object.shield,
-      label: 'Enabled',
+      label: word.general.btn.enabled,
       type: 'checkbox',
       click: () => {
         store.settings.object.shield = !store.settings.object.shield;

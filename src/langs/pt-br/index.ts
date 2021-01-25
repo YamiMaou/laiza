@@ -1,8 +1,12 @@
 export const word = {
   /**
    *  Word Object Lists
-   * */
+   *
+   **/
   general: {
+    btn: {
+      enabled: 'Ativar',
+    },
     quit: {
       title: 'Encerrar o navegador %s',
       message: 'Deseja realmente encerrar o navegador %s ?',

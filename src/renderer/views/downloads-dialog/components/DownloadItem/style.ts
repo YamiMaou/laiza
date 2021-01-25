@@ -1,5 +1,10 @@
 import styled, { css } from 'styled-components';
-import { BLUE_500, ICON_PAGE, ICON_MORE } from '~/renderer/constants';
+import {
+  BLUE_500,
+  ICON_PAGE,
+  ICON_MORE,
+  ICON_FOLDER,
+} from '~/renderer/constants';
 import { centerIcon } from '~/renderer/mixins';
 import { ITheme } from '~/interfaces';
 
@@ -91,7 +96,7 @@ export const MoreButton = styled.div`
   width: 36px;
   height: 36px;
   ${centerIcon(20)};
-  background-image: url(${ICON_MORE});
+  background-image: url(${ICON_FOLDER}); // ICON_MORE
 
   opacity: 0.54;
   margin-right: 8px;

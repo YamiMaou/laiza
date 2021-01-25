@@ -70,11 +70,11 @@ export const DEFAULT_SETTINGS: ISettings = {
   suggestions: true,
   themeAuto: true,
   searchEngines: DEFAULT_SEARCH_ENGINES,
-  searchEngine: 0,
+  searchEngine: 2,
   startupBehavior: {
     type: 'empty',
   },
-  warnOnQuit: false,
+  warnOnQuit: true,
   version: 2,
   downloadsDialog: true,
   downloadsPath: remote

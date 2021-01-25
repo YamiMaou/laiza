@@ -14,6 +14,7 @@ import {
 import { IDownloadItem } from '~/interfaces';
 import prettyBytes = require('pretty-bytes');
 import { shell } from 'electron';
+import { Image } from '~/renderer/views/newtab/components/App/style';
 
 const onClick = (item: IDownloadItem) => () => {
   if (item.completed) {
@@ -24,9 +25,16 @@ const onClick = (item: IDownloadItem) => () => {
 const onMoreClick = (item: IDownloadItem) => (
   e: React.MouseEvent<HTMLDivElement>,
 ) => {
+  if (item.completed) {
+    shell.openPath(item.savePath);
+  }
   e.stopPropagation();
 };
-
+const onFolderClick = (item: IDownloadItem) => {
+  if (item.completed) {
+    shell.openPath(item.savePath);
+  }
+};
 export const DownloadItem = observer(({ item }: { item: IDownloadItem }) => {
   let received = prettyBytes(item.receivedBytes);
   const total = prettyBytes(item.totalBytes);
@@ -39,7 +47,8 @@ export const DownloadItem = observer(({ item }: { item: IDownloadItem }) => {
 
   return (
     <StyledDownloadItem onClick={onClick(item)}>
-      <Icon></Icon>
+      <Image src={item.savePath}></Image>
+
       <Info>
         <Title>{item.fileName}</Title>
         {!item.completed && (
